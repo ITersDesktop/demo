@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show loading spinner</title>
+    <style type="text/css">
+        #loading {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<h2>Show loading spinner</h2>
+<button type="button" value="Search" id="btnSearch">Search</button>
+<p><a href="/">Back Home</a></p>
+<div id="container">
+    <img src="loading.gif" id="loading" title="working..." />
+</div>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    const $loading = $('#loading');
+    $(document)
+        .ajaxStart(function () {
+            $loading.show();
+        })
+        .ajaxStop(function () {
+            $loading.hide();
+        });
+
+    $('#btnSearch').on("click", function () {
+        // Found the solution for overcoming 'Access-Control-Allow-Origin' issue
+        // See https://stackoverflow.com/a/43268098/865603
+        let url = "https://www.metaweather.com/api/location/44418/",
+              proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        url =
+            "https://wwwdev.ebi.ac.uk/biomodels/search?domain=biomodels&query=*%3A*+AND+curationstatus%3A%22Manually+curated%22&numResults=10&format=json";
+        $loading.show();
+        // Ref: https://zinoui.com/blog/cross-domain-ajax-request
+        // jQuery cross domain ajax
+        /*$.get(proxyUrl+url).done(function (data) {
+            console.log(data);
+            $('#container').text(JSON.stringify(data));
+        });*/
+
+        // using the Fetch API
+        /*fetch(proxyUrl + url).then(function (response) {
+            return response.json();
+        }).then(function (json) {
+            console.log(json);
+        });*/
+
+        // using ajax call
+        $.ajax({
+            type: "GET",
+            url: "https://www.omicsdi.org:443/ws/statistics/tissues?size=100",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                $('#container').text(JSON.stringify(response));
+            },
+            error: function (jXHR) {
+                console.log(JSON.stringify(jXHR));
+                console.log("Error: " + jXHR.statusText);
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

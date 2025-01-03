@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Understanding dictionary data type in JavaScript</title>
+    <link rel="stylesheet" type="text/css" href="../common-styles.css">
+</head>
+<body onload="iteratePostCodes('codeList');updateCofLondon();addNewPostCode();iteratePostCodes('updatedCodes2')">
+    <div id="demoViewPort">
+        <h2>Examples of using Dictionary</h2>
+        <h3>Create a dictionary object</h3>
+        <pre>
+        const ukPostCodes = {
+            "Bedfordshire": {abbrev: "Beds", codes: ["LU1", "LU4", "MK17"], remarks: ""},
+            "Cambridgeshire": {abbrev: "Cambs", codes: ["CB1", "CB2", "CB3"], remarks: ""},
+            "City of London": {abbrev: "C of Lon", codes: ["E1", "EC1A", "EC1N"], remarks: ""}
+        };
+        </pre>
+        <h3>Iterate Key/Value Pairs</h3>
+        <p>A simple JavaScript "for" loop can be used to iterate through your new dictionary.</p>
+        <pre>
+        for(var key in dict) {
+            var value = dict[key];
+
+        // do something with "key" and "value" variables
+        }
+        </pre>
+        <p>Applied for the dictionary defined above, we got the list below</p>
+        <ul id="codeList"></ul>
+
+        <h3>Access Key/Value Pairs Directly</h3>
+        <p>The Key/Value pairs can be accessed directly on the dictionary Object either through the indexer or as if
+            it's directly a property on the object.</p>
+        <pre>
+        // using indexer
+        var name = dict["abbrev"];
+
+        // as property
+        var name = dict.abbrev;
+        </pre>
+
+        <h3>Update dictionary</h3>
+        <p>Accessing elements via their index or property is the only way to update content of these elements. For
+            example, below is to change the abbrev of 'City of London' to 'C of London'.</p>
+        <pre>
+        function updateCofLondon() {
+            ukPostCodes["City of London"]["abbrev"] = "C of London";
+            iteratePostCodes('updatedCodes');
+        }
+        </pre>
+        <ul id="updatedCodes"></ul>
+        <h3>Add a new element to an existing dictionary</h3>
+        <p>Here shows you how to add new county into the dictionary.</p>
+        <pre>
+        ukPostCodes["Buckinghamshire"] = {name: "Bucks",
+                            codes: ["HP10", "UB9", "WD3"], remarks: ""};
+        </pre>
+        <p>The updated dictionary has:</p>
+        <ul id="updatedCodes2"></ul>
+
+        <h3>Functions can be Key or Value Too!</h3>
+        <p>Since JavaScript is a functional language, functions are objects too. As a result, Functions can also be
+               used as either Key and/or Value on your dictionary. For the Dictionary Key, this really does make
+            sense since the Dictionary is really just an Object which can have functions/methods on it. However using
+            Functions as the value may not be the most obvious for developers most comfortable with non-functional
+            programming languages.</p>
+
+        <p>Here are some examples of using a Function in both Key and Value of a Dictionary:</p>
+        <pre>
+        var dict = {};
+
+        var f = function() {
+          // do something
+        };
+
+        // setup Function as Value
+        dict['method'] = f;
+
+        // setup Function as Key
+        dict[f] = 'some value';
+
+        // execute Function from Value
+        dict['method']();
+
+        var method = dict.method;
+        method();
+
+        // get value for Key
+        var val = dict[f];
+        </pre>
+        <p>Hopefully this offers some additional tips/tricks and/or insights into how to work with a kind of
+            dictionary in JavaScript, and how to make it fit into your need. Happy coding!</p>
+    </div>
+    <script type="text/javascript">
+        let ukPostCodes = {
+            "Bedfordshire": {abbrev: "Beds", codes: ["LU1", "LU4", "MK17"], remarks: ""},
+            "Cambridgeshire": {abbrev: "Cambs", codes: ["CB1", "CB2", "CB3"], remarks: ""},
+            "City of London": {abbrev: "C of Lon", codes: ["E1", "EC1A", "EC1N"], remarks: ""}
+        };
+        function iteratePostCodes(divId) {
+            let ul = document.getElementById(divId);
+            for(const key in ukPostCodes) {
+                const value = ukPostCodes[key];
+                let li = document.createElement("li");
+                li.appendChild(document.createTextNode(key + " (" + value.abbrev + "). Post codes: " + value.codes));
+                ul.appendChild(li);
+            }
+        }
+        function updateCofLondon() {
+            ukPostCodes["City of London"]["abbrev"] = "C of London";
+            iteratePostCodes('updatedCodes');
+        }
+        function addNewPostCode() {
+            ukPostCodes["Buckinghamshire"] = {name: "Bucks", codes: ["HP10", "UB9", "WD3"], remarks: ""};
+        }
+    </script>
+</body>
+
+</html>

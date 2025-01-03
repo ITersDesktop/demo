@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Callback</title>
+</head>
+<body>
+<h2>What is a callback?</h2>
+<p>A callback is a function which is passed as an argument to another function. It is called later when the other
+    function completed. Callbacks are commonly used in asynchronous functions where JavaScript programs can start
+    long-running tasks and continue running other tasks in parallel. We are usually aware of using <kbd>setTimeout</kbd>
+    and <kbd>setInterval</kbd> function.</p>
+<h2>Demo</h2>
+<ol>
+    <li><a href="/tutorials/advanced/async/clock.html">Create an analog digital clock</a></li>
+</ol>
+<h2>References</h2>
+<ol>
+    <li><a href="https://www.youtube.com/watch?v=kz_vwAF4NHI">JavaScript Callbacks Explained in 5 Minutes (Essential for
+        asynchronous code!)</a></li>
+    <li><a href="https://www.w3schools.com/js/js_callback.asp">w3schools callback</a></li>
+</ol>
+<hr/>
+<div id="timer"></div>
+<script>
+    const names = ["tom", "lily", "tony", "ethan"];
+
+    console.log("Printing all names using forEach");
+    names.forEach((name) => {
+        console.log(name);
+    });
+
+    console.log("Printing all names using a callback");
+    const NamePrinter = (listNames, cb) => {
+        for (let i = 0; i < listNames.length; i++) {
+            const name = listNames[i];
+            cb(name);
+        }
+    };
+
+    NamePrinter(names, (name) => {
+        console.log(name);
+    });
+
+    console.log("Another example using callback");
+    console.log(1);
+    setTimeout(() => {
+        console.log(2);
+    }, 0);
+    console.log(3);
+
+    const loadPokemon = (id, cb) => {
+        fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                cb(data)
+            });
+    };
+    loadPokemon(55, (data) => {
+        console.log(data);
+    });
+
+    setInterval(myFunction, 1000);
+
+    function myFunction() {
+        let d = new Date();
+        document.getElementById("timer").innerHTML = "Digital Timer: " +
+            d.getHours() + ":" +
+            d.getMinutes() + ":" +
+            d.getSeconds();
+    }
+</script>
+</body>
+</html>

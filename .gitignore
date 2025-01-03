@@ -1,0 +1,8 @@
+.idea/
+logs/
+venv/
+tmp/
+
+# files
+*.bak
+*.log
